@@ -9,4 +9,5 @@ object Constant {
     const val ID = "id"
     const val NAME = "name"
     const val PHONE_NUMBER = "phone"
+    const val CATEGORY = "category"
 }
