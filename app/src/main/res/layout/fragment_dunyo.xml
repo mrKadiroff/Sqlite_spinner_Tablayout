@@ -3,15 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.DunyoFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/dunyo_rv"
         android:layout_width="match_parent"
-        android:textSize="45dp"
-        android:gravity="center"
-        android:textColor="@color/black"
+        tools:listitem="@layout/ijtim_contact"
         android:layout_height="match_parent"
-        android:text="Dunyo" />
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
 </LinearLayout>

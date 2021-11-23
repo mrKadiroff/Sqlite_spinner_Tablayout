@@ -12,11 +12,12 @@ import com.example.home_1.adapters.Ijtimoiy_adapter
 import com.example.home_1.databinding.FragmentIjtimoiyBinding
 import com.example.home_1.db.MyDbHelper
 import com.example.home_1.models.Contact
+import com.google.android.material.tabs.TabLayout
 
 
 class IjtimoiyFragment : Fragment() {
 
-
+//lateinit var ijtimoiyAdapter: Ijtimoiy_adapter
     lateinit var mContext : Context
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -30,41 +31,54 @@ class IjtimoiyFragment : Fragment() {
         // Inflate the layout for this fragment
         var view: View = inflater.inflate(R.layout.fragment_ijtimoiy, container, false)
         var binding = FragmentIjtimoiyBinding.bind(view)
-       var modelList = ArrayList<Contact>()
+
+      
+
+
+
+
+       var List = ArrayList<Contact>()
         var database = MyDbHelper(mContext)
-        var phoneList = database.getAllContacts()
+        var ValueList = database.getAllContacts()
 
-        phoneList.forEach {
-//            modelList.add(it)
+        val kateg = "Ijtimoiy"
+
+        ValueList.forEach {
+            if (it.kategoriya == kateg){
+                List.add(it)
+            }
         }
-        var adapter = Ijtimoiy_adapter(modelList)
+        var adapter = Ijtimoiy_adapter(List)
         binding.ijtRv.adapter = adapter
+        val rv = binding.ijtRv
 
-       modelList.addAll(phoneList)
-       adapter = Ijtimoiy_adapter(modelList)
-        binding.ijtRv.adapter = adapter
+//       List.addAll(ValueList)
+//       adapter = Ijtimoiy_adapter(List)
+//        binding.ijtRv.adapter = adapter
 
-//
-//        ijtimoiyAdapter = Ijtimoiy_adapter(phon)
-//        ijtimoiyAdapter.notifyItemInserted(phoneList.size)
 
+//            List.add(it)
 
 
 
         return view
     }
 
-//    override fun onResume() {
-//        super.onResume()
-//        var myDbHelper = MyDbHelper(mContext)
-//        var list = ArrayList<Contact>()
-//        var alllist = myDbHelper.getAllContacts()
-//        list.clear()
-//        list.addAll(myDbHelper.getAllContacts())
-//        ijtimoiyAdapter = Ijtimoiy_adapter(list)
-//        ijtimoiyAdapter.notifyItemInserted(list.size)
+    override fun onResume() {
+        super.onResume()
+        var database = MyDbHelper(mContext)
+        var List = ArrayList<Contact>()
+        List.clear()
+        List.addAll(database.getAllContacts())
+        var adapter = Ijtimoiy_adapter(List)
+        adapter.notifyDataSetChanged()
 //        ijtimoiyAdapter.notifyDataSetChanged()
-//    }
+
+
+
+    }
+
+
 
 
 }

@@ -40,7 +40,7 @@ class ViewPagerActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         myDbHelper = MyDbHelper(this)
         list = myDbHelper.getAllContacts()
-
+        ijtimoiyAdapter = Ijtimoiy_adapter(list)
 
         val tabLayout=findViewById<TabLayout>(R.id.tab_layout)
         val viewPager2=findViewById<ViewPager2>(R.id.view_pager_2)
@@ -48,6 +48,7 @@ class ViewPagerActivity : AppCompatActivity() {
         val adapter=ViewPagerAdapter(supportFragmentManager,lifecycle)
 
         viewPager2.adapter=adapter
+
 
 
 
@@ -105,16 +106,16 @@ class ViewPagerActivity : AppCompatActivity() {
                 val kategoriya = mSpinner.selectedItem.toString()
                 val contact = Contact(heading, description, kategoriya)
                 myDbHelper.addContact(contact)
-//                list.add(contact)
-//                ijtimoiyAdapter.notifyItemInserted(list.size)
 
 
-
-
-//                if (mSpinner.selectedItem.toString().equals("Ijtimoiy")){
-//                    Toast.makeText(this,"Ijtimoiy",Toast.LENGTH_SHORT).show()
-//                }
                 dialog.dismiss()
+                val viewPager2=findViewById<ViewPager2>(R.id.view_pager_2)
+                val mPagerAdapter =viewPager2.adapter
+                val currentPosition = viewPager2.currentItem
+                mPagerAdapter?.notifyDataSetChanged()
+                viewPager2.adapter = null
+                viewPager2.adapter =mPagerAdapter
+                viewPager2.setCurrentItem(currentPosition)
 
             }
             mBuilder.setNegativeButton(
@@ -126,15 +127,30 @@ class ViewPagerActivity : AppCompatActivity() {
             val dialog : AlertDialog = mBuilder.create()
             dialog.show()
 
+
         }
         return false
+
+
+
+
+
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val viewPager2=findViewById<ViewPager2>(R.id.view_pager_2)
+        val mPagerAdapter =viewPager2.adapter
+        val currentPosition = viewPager2.currentItem
+        mPagerAdapter?.notifyDataSetChanged()
+        viewPager2.adapter = null
+        viewPager2.adapter =mPagerAdapter
+        viewPager2.setCurrentItem(currentPosition)
+
+
     }
 
 
 
-//    private fun selectFragment(fragment: Fragment) {
-//        val fragmentTransaction = supportFragmentManager.beginTransaction()
-//        fragmentTransaction.replace(R.id.view_pager_2,fragment)
-//        fragmentTransaction.commit()
-//    }
 }
