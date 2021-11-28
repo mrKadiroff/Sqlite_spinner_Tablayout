@@ -1,5 +1,6 @@
 package com.example.home_1.fragments
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -11,6 +12,7 @@ import android.widget.TextView
 import com.example.home_1.ChildIjtActivity
 import com.example.home_1.Child_dunyoActivity
 import com.example.home_1.R
+import com.example.home_1.adapters.Asosiy_adapter
 import com.example.home_1.adapters.Ijtimoiy_adapter
 import com.example.home_1.databinding.FragmentIjtimoiyBinding
 import com.example.home_1.db.MyDbHelper
@@ -20,73 +22,69 @@ import com.google.android.material.tabs.TabLayout
 
 class IjtimoiyFragment : Fragment() {
 
-//lateinit var ijtimoiyAdapter: Ijtimoiy_adapter
-    lateinit var mContext : Context
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        mContext = context
-    }
+    lateinit var binding: FragmentIjtimoiyBinding
+    lateinit var myDbHelper: MyDbHelper
+    lateinit var ijtimoiyList: ArrayList<Contact>
+    lateinit var list: ArrayList<Contact>
+    lateinit var rvAdapters: Ijtimoiy_adapter
+    lateinit var spinnerBasicList: ArrayList<String>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
-        var view: View = inflater.inflate(R.layout.fragment_ijtimoiy, container, false)
-        var binding = FragmentIjtimoiyBinding.bind(view)
+        binding = FragmentIjtimoiyBinding.inflate(layoutInflater)
 
-      
+        myDbHelper = MyDbHelper(binding.root.context)
+
+        ijtimoiyList = ArrayList()
+        list = ArrayList()
+
+        ijtimoiyList = myDbHelper.getAllContacts()
 
 
-
-
-       var List = ArrayList<Contact>()
-        var database = MyDbHelper(mContext)
-        var ValueList = database.getAllContacts()
+        spinnerBasicList = ArrayList()
+        spinnerBasicList.add("Asosiy")
+        spinnerBasicList.add("Dunyo")
+        spinnerBasicList.add("Ijtimoiy")
 
         val kateg = "Ijtimoiy"
 
-        ValueList.forEach {
-            if (it.kategoriya == kateg){
-                List.add(it)
+        ijtimoiyList.forEach {
+            if (it.kategoriya == kateg) {
+                list.add(it)
             }
         }
-        var adapter = Ijtimoiy_adapter(List, object:Ijtimoiy_adapter.OnItemClickListener{
+
+        rvAdapters = Ijtimoiy_adapter(list, object : Ijtimoiy_adapter.OnItemClickListener {
             override fun onItemContactClick(contact: Contact) {
-                val intent = Intent(mContext, ChildIjtActivity::class.java)
+                val intent = Intent(binding.root.context, ChildIjtActivity::class.java)
                 intent.putExtra("oydi", contact.id)
                 startActivity(intent)
             }
-
         })
-        binding.ijtRv.adapter = adapter
-        val rv = binding.ijtRv
 
-//       List.addAll(ValueList)
-//       adapter = Ijtimoiy_adapter(List)
-//        binding.ijtRv.adapter = adapter
-
-
-//            List.add(it)
+        binding.ijtRv.adapter = rvAdapters
 
 
 
-        return view
+        return binding.root
     }
 
-//    override fun onResume() {
-//        super.onResume()
-//        var database = MyDbHelper(mContext)
-//        var List = ArrayList<Contact>()
-//        List.clear()
-//        List.addAll(database.getAllContacts())
-//        var adapter = Ijtimoiy_adapter(List)
-//        adapter.notifyDataSetChanged()
-////        ijtimoiyAdapter.notifyDataSetChanged()
 
-
-
+    @SuppressLint("NotifyDataSetChanged")
+    override fun onResume() {
+        super.onResume()
+        list.clear()
+        var allBasic = myDbHelper.getAllContacts()
+        for (contact in allBasic) {
+            if (contact.kategoriya == spinnerBasicList[0]) {
+                list.add(contact)
+            }
+            rvAdapters.notifyDataSetChanged()
+        }
     }
+}
 
 
 

@@ -1,5 +1,6 @@
 package com.example.home_1.fragments
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -30,32 +31,29 @@ import kotlin.collections.ArrayList
 
 class AsosiyFragment : Fragment() {
 
-//    private var _binding: FragmentAsosiyBinding? = null
+    //    private var _binding: FragmentAsosiyBinding? = null
 //    private val binding get() = _binding!!
 //    lateinit var root: View
-lateinit var spinnerAdapter: SpinnerAdapter
+    lateinit var spinnerAdapter: SpinnerAdapter
     lateinit var rvAdapters: Asosiy_adapter
     lateinit var spinnerBasicList: ArrayList<String>
     lateinit var list: ArrayList<Contact>
+    lateinit var asosiyList: ArrayList<Contact>
+    lateinit var myDbHelper: MyDbHelper
 
-
-    lateinit var mContext : Context
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        mContext = context
-    }
-
-
+    lateinit var binding: FragmentAsosiyBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-       var view = inflater.inflate(R.layout.fragment_asosiy, container, false)
-        var binding =  FragmentAsosiyBinding.bind(view)
+        binding = FragmentAsosiyBinding.inflate(layoutInflater)
+
+        myDbHelper = MyDbHelper(binding.root.context)
+
         setHasOptionsMenu(true)
 
-
+        asosiyList = ArrayList()
+        list = ArrayList()
 
         spinnerBasicList = ArrayList()
         spinnerBasicList.add("Asosiy")
@@ -63,138 +61,124 @@ lateinit var spinnerAdapter: SpinnerAdapter
         spinnerBasicList.add("Ijtimoiy")
 
 
-        var List = ArrayList<Contact>()
-        var database = MyDbHelper(mContext)
-        var ValueList = database.getAllContacts()
+
+        asosiyList = myDbHelper.getAllContacts()
         val kateg = "Asosiy"
-        ValueList.forEach {
-            if (it.kategoriya == kateg){
-                List.add(it)
+        asosiyList.forEach {
+            if (it.kategoriya == kateg) {
+                list.add(it)
             }
         }
 
-        list = database.getAllContacts()
-         rvAdapters = Asosiy_adapter(List, object:Asosiy_adapter.OnItemClickListener{
+        list = myDbHelper.getAllContacts()
+
+        rvAdapters = Asosiy_adapter(list, object : Asosiy_adapter.OnItemClickListener {
             override fun onItemContactClick(contact: Contact) {
-               val intent = Intent(mContext,ChildActivity::class.java)
+                val intent = Intent(binding.root.context, ChildActivity::class.java)
                 intent.putExtra("id", contact.id)
                 startActivity(intent)
             }
 
+            @SuppressLint("NotifyDataSetChanged")
             override fun onItemClick(contact: Contact, position: Int, imageView: ImageView) {
-                val popupMenu = PopupMenu(mContext, imageView)
+                val popupMenu = PopupMenu(binding.root.context, imageView)
                 popupMenu.inflate(R.menu.popup_menu)
 
                 popupMenu.setOnMenuItemClickListener {
-                   when (it.itemId) {
-                       R.id.edit -> {
-                           val alertDialog = AlertDialog.Builder(mContext)
-                           val dialog = alertDialog.create()
-                           val dialogView = MyDialogBinding.inflate(
-                               LayoutInflater.from(mContext),
-                               null,
-                               false
-                           )
-                           spinnerAdapter = SpinnerAdapter(spinnerBasicList)
-                           dialogView.Spinner.adapter = spinnerAdapter
+                    when (it.itemId) {
+                        R.id.edit -> {
+                            val alertDialog = AlertDialog.Builder(binding.root.context)
+                            val dialog = alertDialog.create()
+                            val dialogView = MyDialogBinding.inflate(
+                                LayoutInflater.from(binding.root.context),
+                                null,
+                                false
+                            )
+                            spinnerAdapter = SpinnerAdapter(spinnerBasicList)
+                            dialogView.Spinner.adapter = spinnerAdapter
 
-                           dialogView.sarlavha.setText(contact.name)
-                           dialogView.matn.setText(contact.phoneNumber)
-                           dialogView.Spinner.setSelection(0)
+                            dialogView.sarlavha.setText(contact.name)
+                            dialogView.matn.setText(contact.phoneNumber)
+                            dialogView.Spinner.setSelection(0)
 
-                           dialogView.saveText.setOnClickListener {
-                               val type = spinnerBasicList[dialogView.Spinner.selectedItemPosition]
-                               val name = dialogView.sarlavha.text.toString()
-                               val descriptions = dialogView.matn.text.toString()
+                            dialogView.saveText.setOnClickListener {
+                                val type = spinnerBasicList[dialogView.Spinner.selectedItemPosition]
+                                val name = dialogView.sarlavha.text.toString()
+                                val descriptions = dialogView.matn.text.toString()
 
-                               if (name.isNotEmpty()) {
-                                  contact.kategoriya=spinnerBasicList[dialogView.Spinner.selectedItemPosition]
-                                   contact.name=dialogView.sarlavha.text.toString()
-                                   contact.phoneNumber=dialogView.matn.text.toString()
-                                   database.updateContact(contact)
-                                   List[position] = contact
-                                   List.clear()
+                                if (name.isNotEmpty()) {
+                                    contact.kategoriya =
+                                        spinnerBasicList[dialogView.Spinner.selectedItemPosition]
+                                    contact.name = dialogView.sarlavha.text.toString()
+                                    contact.phoneNumber = dialogView.matn.text.toString()
+                                    myDbHelper.updateContact(contact)
+                                    list[position] = contact
+                                    list.clear()
 
-                                   var allBasic = database.getAllContacts()
+                                    var allBasic = myDbHelper.getAllContacts()
 
-                                   for (contact in allBasic){
-                                       if (contact.kategoriya == spinnerBasicList[0]) {
-                                           List.add(contact)
-                                       }
-                                   }
+                                    for (contact in allBasic) {
+                                        if (contact.kategoriya == spinnerBasicList[0]) {
+                                            list.add(contact)
+                                        }
+                                    }
 
+                                    binding.asosRv.adapter = rvAdapters
+                                    rvAdapters.notifyItemInserted(list.size)
+                                    rvAdapters.notifyItemChanged(position)
+                                    rvAdapters.notifyItemRangeInserted(position, list.size)
+                                    rvAdapters.notifyItemRangeChanged(position, list.size)
+                                    dialog.dismiss()
 
-                                   binding.asosRv.adapter = rvAdapters
-                                   rvAdapters.notifyItemInserted(List.size)
-                                   rvAdapters.notifyItemChanged(position)
-                                   rvAdapters.notifyItemRangeInserted(position,List.size)
-                                   rvAdapters.notifyItemRangeChanged(position, List.size)
-                                   dialog.dismiss()
+                                    list.clear()
+                                    allBasic = myDbHelper.getAllContacts()
+                                    for (contact in allBasic) {
+                                        if (contact.kategoriya == spinnerBasicList[0]) {
+                                            list.add(contact)
+                                        }
 
-//                                   var database = MyDbHelper(mContext)
-//                                   var List = ArrayList<Contact>()
-                                   List.clear()
-                                    allBasic = database.getAllContacts()
-                                   for (contact in allBasic) {
-                                       if (contact.kategoriya == spinnerBasicList[0]) {
-                                           List.add(contact)
-                                       }
+                                        rvAdapters.notifyDataSetChanged()
 
-//            var rvAdapter = Asosiy_adapter()
-                                       rvAdapters.notifyDataSetChanged()
+                                    }
+                                }
+                            }
+                            dialog.setView(dialogView.root)
+                            dialog.show()
 
-                                   }
-                               }
-                           }
-                           dialog.setView(dialogView.root)
-                           dialog.show()
-
-                       }
-                       R.id.delete -> {
-                           database.deleteContact(contact)
-                           List.remove(contact)
-                           rvAdapters.notifyItemRemoved(position)
-                           rvAdapters.notifyItemRangeChanged(position, List.size)
-                       }
+                        }
+                        R.id.delete -> {
+                            myDbHelper.deleteContact(contact)
+                            list.remove(contact)
+                            rvAdapters.notifyItemRemoved(position)
+                            rvAdapters.notifyItemRangeChanged(position, list.size)
+                        }
 
 
-                   }
-                  true
+                    }
+                    true
                 }
                 popupMenu.show()
             }
 
-        }, navController = NavController(mContext))
+        }, navController = NavController(binding.root.context))
         binding.asosRv.adapter = rvAdapters
-        val rv = binding.asosRv
 
 
-        return view
+
+        return binding.root
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onResume() {
         super.onResume()
-        var database = MyDbHelper(mContext)
-        var List = ArrayList<Contact>()
-        List.clear()
-        List.addAll(database.getAllContacts())
-        rvAdapters.notifyDataSetChanged()
-//        List.clear()
-//        var allBasic = database.getAllContacts()
-//        for (contact in allBasic) {
-//            if (contact.kategoriya == spinnerBasicList[0]) {
-//                List.add(contact)
-//            }
-//
-////            var rvAdapter = Asosiy_adapter()
-//            rvAdapters.notifyDataSetChanged()
-//
-//        }
+        list.clear()
+        var allBasic = myDbHelper.getAllContacts()
+        for (contact in allBasic) {
+            if (contact.kategoriya == spinnerBasicList[0]) {
+                list.add(contact)
+            }
+            rvAdapters.notifyDataSetChanged()
+        }
+    }
+}
 
-
-
-
-
-
-
-}}

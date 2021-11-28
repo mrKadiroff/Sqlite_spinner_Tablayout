@@ -1,6 +1,5 @@
 package com.example.home_1
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,20 +8,10 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.viewpager2.widget.ViewPager2
-import com.example.home_1.`interface`.SendMessage
 import com.example.home_1.adapters.Ijtimoiy_adapter
-
-import com.example.home_1.databinding.ActivityMainBinding
 import com.example.home_1.databinding.ActivityViewPagerBinding
-import com.example.home_1.databinding.MyDialogBinding
 import com.example.home_1.db.MyDbHelper
-import com.example.home_1.fragments.AsosiyFragment
-import com.example.home_1.fragments.DunyoFragment
-import com.example.home_1.fragments.IjtimoiyFragment
 import com.example.home_1.models.Contact
 import com.example.home_1.view_adapter.ViewPagerAdapter
 import com.google.android.material.tabs.TabLayout
