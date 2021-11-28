@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_nav"
+    app:startDestination="@id/asosiyFragment">
+
+    <fragment
+        android:id="@+id/asosiyFragment"
+        android:name="com.example.home_1.fragments.AsosiyFragment"
+        android:label="fragment_asosiy"
+        tools:layout="@layout/fragment_asosiy" >
+        <action
+            android:id="@+id/action_asosiyFragment_to_asosChildFragment"
+            app:destination="@id/asosChildFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/asosChildFragment"
+        android:name="com.example.home_1.fragments.AsosChildFragment"
+        android:label="fragment_asos_child"
+        tools:layout="@layout/fragment_asos_child" />
+</navigation>

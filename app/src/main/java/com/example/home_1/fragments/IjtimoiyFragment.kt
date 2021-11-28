@@ -1,12 +1,15 @@
 package com.example.home_1.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.example.home_1.ChildIjtActivity
+import com.example.home_1.Child_dunyoActivity
 import com.example.home_1.R
 import com.example.home_1.adapters.Ijtimoiy_adapter
 import com.example.home_1.databinding.FragmentIjtimoiyBinding
@@ -48,7 +51,14 @@ class IjtimoiyFragment : Fragment() {
                 List.add(it)
             }
         }
-        var adapter = Ijtimoiy_adapter(List)
+        var adapter = Ijtimoiy_adapter(List, object:Ijtimoiy_adapter.OnItemClickListener{
+            override fun onItemContactClick(contact: Contact) {
+                val intent = Intent(mContext, ChildIjtActivity::class.java)
+                intent.putExtra("oydi", contact.id)
+                startActivity(intent)
+            }
+
+        })
         binding.ijtRv.adapter = adapter
         val rv = binding.ijtRv
 
@@ -64,15 +74,15 @@ class IjtimoiyFragment : Fragment() {
         return view
     }
 
-    override fun onResume() {
-        super.onResume()
-        var database = MyDbHelper(mContext)
-        var List = ArrayList<Contact>()
-        List.clear()
-        List.addAll(database.getAllContacts())
-        var adapter = Ijtimoiy_adapter(List)
-        adapter.notifyDataSetChanged()
-//        ijtimoiyAdapter.notifyDataSetChanged()
+//    override fun onResume() {
+//        super.onResume()
+//        var database = MyDbHelper(mContext)
+//        var List = ArrayList<Contact>()
+//        List.clear()
+//        List.addAll(database.getAllContacts())
+//        var adapter = Ijtimoiy_adapter(List)
+//        adapter.notifyDataSetChanged()
+////        ijtimoiyAdapter.notifyDataSetChanged()
 
 
 
@@ -81,4 +91,3 @@ class IjtimoiyFragment : Fragment() {
 
 
 
-}

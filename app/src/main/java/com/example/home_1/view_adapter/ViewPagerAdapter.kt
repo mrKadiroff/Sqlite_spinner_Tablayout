@@ -30,4 +30,6 @@ class ViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle): 
         }
     }
 
+   
+
 }

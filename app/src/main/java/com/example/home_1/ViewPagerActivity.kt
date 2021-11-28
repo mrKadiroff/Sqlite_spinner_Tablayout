@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.viewpager2.widget.ViewPager2
+import com.example.home_1.`interface`.SendMessage
 import com.example.home_1.adapters.Ijtimoiy_adapter
 
 import com.example.home_1.databinding.ActivityMainBinding
@@ -40,7 +41,7 @@ class ViewPagerActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         myDbHelper = MyDbHelper(this)
         list = myDbHelper.getAllContacts()
-        ijtimoiyAdapter = Ijtimoiy_adapter(list)
+//        ijtimoiyAdapter = Ijtimoiy_adapter(list)
 
         val tabLayout=findViewById<TabLayout>(R.id.tab_layout)
         val viewPager2=findViewById<ViewPager2>(R.id.view_pager_2)
@@ -147,9 +148,12 @@ class ViewPagerActivity : AppCompatActivity() {
         viewPager2.adapter = null
         viewPager2.adapter =mPagerAdapter
         viewPager2.setCurrentItem(currentPosition)
-
-
     }
+
+
+
+
+
 
 
 
