@@ -94,23 +94,23 @@ class DunyoFragment : Fragment() {
                                 val name = dialogView.sarlavha.text.toString()
                                 val descriptions = dialogView.matn.text.toString()
 
-                                if (name.isNotEmpty()) {
+                                if (name.isNotEmpty() && descriptions.isNotEmpty()) {
                                     contact.kategoriya=spinnerBasicList[dialogView.Spinner.selectedItemPosition]
-                                    contact.name=dialogView.sarlavha.text.toString()
-                                    contact.phoneNumber=dialogView.matn.text.toString()
+                                    contact.name=dialogView.sarlavha.text.toString().trim()
+                                    contact.phoneNumber=dialogView.matn.text.toString().trim()
                                     myDbHelper.updateContact(contact)
                                     list[position] = contact
                                     list.clear()
-//
-//                                    var allBasic = database.getAllContacts()
-//
-//                                    for (contact in allBasic){
-//                                        if (contact.kategoriya == spinnerBasicList[1]) {
-//                                            List.add(contact)
-//                                        }
-//                                    }
-//
-//
+
+                                    var allBasic = myDbHelper.getAllContacts()
+
+                                    for (contact in allBasic){
+                                        if (contact.kategoriya == spinnerBasicList[1]) {
+                                            list.add(contact)
+                                        }
+                                    }
+
+
                                     binding.dunyoRv.adapter = rvAdapters
                                     rvAdapters.notifyItemInserted(list.size)
                                     rvAdapters.notifyItemChanged(position)
@@ -121,15 +121,29 @@ class DunyoFragment : Fragment() {
 
                                 }
                             }
+
+                            dialogView.notText.setOnClickListener {
+                                dialog.dismiss()
+                            }
                             dialog.setView(dialogView.root)
                             dialog.show()
 
                         }
                         R.id.delete -> {
-                            myDbHelper.deleteContact(contact)
-                            list.remove(contact)
-                            rvAdapters.notifyItemRemoved(position)
-                            rvAdapters.notifyItemRangeChanged(position, list.size)
+                            val alertDialog = AlertDialog.Builder(binding.root.context)
+                            alertDialog.setMessage("Xabarni o'chirmoqchimisiz?")
+                            alertDialog.setPositiveButton(
+                                "O'chirish"
+                            ) {p0, p1 ->
+                                myDbHelper.deleteContact(contact)
+                                list.remove(contact)
+                                rvAdapters.notifyItemRemoved(position)
+                                rvAdapters.notifyItemRangeChanged(position, list.size)
+                            }
+                            alertDialog.setNegativeButton(
+                                "Bekor qilish"
+                            ) {p0, p1 ->}
+                            alertDialog.show()
                         }
 
 
@@ -149,18 +163,18 @@ class DunyoFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        Toast.makeText(binding.root.context, "onStart", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(binding.root.context, "onStart", Toast.LENGTH_SHORT).show()
     }
 
     override fun onDetach() {
         super.onDetach()
-        Toast.makeText(binding.root.context, "onDetach", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(binding.root.context, "onDetach", Toast.LENGTH_SHORT).show()
     }
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onResume() {
         super.onResume()
-        Toast.makeText(binding.root.context, "onResume", Toast.LENGTH_SHORT).show()
+
         list.clear()
         var allBasic = myDbHelper.getAllContacts()
         for (contact in allBasic) {

@@ -2,6 +2,7 @@ package com.example.home_1.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.home_1.databinding.IjtimContactBinding
 import com.example.home_1.models.Contact
@@ -13,10 +14,13 @@ class Ijtimoiy_adapter(var list: List<Contact>, var onItemClickListener: OnItemC
         fun onBind(contact: Contact) {
             ijtimContactBinding.heading.text = contact.name
             ijtimContactBinding.teks.text = contact.phoneNumber
-            ijtimContactBinding.turi.text = contact.kategoriya
+//            ijtimContactBinding.turi.text = contact.kategoriya
 
             ijtimContactBinding.root.setOnClickListener {
                 onItemClickListener.onItemContactClick(contact)
+            }
+            ijtimContactBinding.more.setOnClickListener {
+                onItemClickListener.onItemClick(contact, position, ijtimContactBinding.more)
             }
         }
     }
@@ -33,5 +37,6 @@ class Ijtimoiy_adapter(var list: List<Contact>, var onItemClickListener: OnItemC
 
     interface OnItemClickListener{
         fun onItemContactClick(contact: Contact)
+        fun onItemClick(contact: Contact, position: Int, imageView: ImageView)
     }
 }

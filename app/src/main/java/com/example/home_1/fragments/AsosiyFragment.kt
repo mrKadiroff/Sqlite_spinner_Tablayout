@@ -103,14 +103,30 @@ class AsosiyFragment : Fragment() {
 
                             dialogView.saveText.setOnClickListener {
                                 val type = spinnerBasicList[dialogView.Spinner.selectedItemPosition]
-                                val name = dialogView.sarlavha.text.toString()
-                                val descriptions = dialogView.matn.text.toString()
+                                val name = dialogView.sarlavha.text.toString().trim()
+                                val descriptions = dialogView.matn.text.toString().trim()
+                                dialogView.sarlavha.requestFocus()
+                                dialogView.matn.requestFocus()
 
-                                if (name.isNotEmpty()) {
+//                                if (name.isEmpty()){
+//                                    dialogView.sarlavha.error = "Kinoning nomi kiritilmadi"
+//                                    dialogView.sarlavha.requestFocus()
+//                                    return@setOnClickListener
+//                                }
+//
+//                                if (descriptions.isEmpty()){
+//                                    dialogView.sarlavha.error = "Kinoning nomi kiritilmadi"
+//                                    dialogView.sarlavha.requestFocus()
+//                                    return@setOnClickListener
+//                                }
+
+                                if (name.isNotEmpty() && descriptions.isNotEmpty()) {
+
+
                                     contact.kategoriya =
-                                        spinnerBasicList[dialogView.Spinner.selectedItemPosition]
-                                    contact.name = dialogView.sarlavha.text.toString()
-                                    contact.phoneNumber = dialogView.matn.text.toString()
+                                        type
+                                    contact.name = name
+                                    contact.phoneNumber = descriptions
                                     myDbHelper.updateContact(contact)
                                     list[position] = contact
                                     list.clear()
@@ -141,16 +157,36 @@ class AsosiyFragment : Fragment() {
 
                                     }
                                 }
+
+                            }
+
+                            dialogView.notText.setOnClickListener {
+                                dialog.dismiss()
                             }
                             dialog.setView(dialogView.root)
                             dialog.show()
 
                         }
                         R.id.delete -> {
-                            myDbHelper.deleteContact(contact)
+                            val alertDialog = AlertDialog.Builder(binding.root.context)
+                            alertDialog.setMessage("Xabarni o'chirmoqchimisiz?")
+                            alertDialog.setPositiveButton(
+                                "O'chirish"
+                            ) {p0, p1 ->
+                                myDbHelper.deleteContact(contact)
                             list.remove(contact)
                             rvAdapters.notifyItemRemoved(position)
                             rvAdapters.notifyItemRangeChanged(position, list.size)
+                            }
+                            alertDialog.setNegativeButton(
+                                "Bekor qilish"
+                            ) {p0, p1 ->}
+                            alertDialog.show()
+
+//                            myDbHelper.deleteContact(contact)
+//                            list.remove(contact)
+//                            rvAdapters.notifyItemRemoved(position)
+//                            rvAdapters.notifyItemRangeChanged(position, list.size)
                         }
 
 

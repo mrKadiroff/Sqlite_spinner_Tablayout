@@ -10,13 +10,18 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         app:title="Bootcamp news"
-        android:background="@color/purple_200"/>
+
+        app:titleTextColor="@color/white"
+        android:background="#3587D2"/>
 
     <com.google.android.material.tabs.TabLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+     android:background="#3587D2"
+        app:tabIndicatorColor="@color/white"
+        android:layout_height="?actionBarSize"
+        app:tabTextColor="@color/white"
         android:id="@+id/tab_layout"/>
 
     <androidx.viewpager2.widget.ViewPager2

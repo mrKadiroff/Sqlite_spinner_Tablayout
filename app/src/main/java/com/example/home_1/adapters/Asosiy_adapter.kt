@@ -14,7 +14,7 @@ class Asosiy_adapter(var list: List<Contact>, var onItemClickListener: OnItemCli
         fun onBind(contact: Contact) {
             ijtimContactBinding.heading.text = contact.name
             ijtimContactBinding.teks.text = contact.phoneNumber
-            ijtimContactBinding.turi.text = contact.kategoriya
+//            ijtimContactBinding.turi.text = contact.kategoriya
 
             ijtimContactBinding.root.setOnClickListener {
                 onItemClickListener.onItemContactClick(contact)
