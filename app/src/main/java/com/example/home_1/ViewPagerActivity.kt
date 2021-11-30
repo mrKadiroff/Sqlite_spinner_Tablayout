@@ -31,7 +31,7 @@ class ViewPagerActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         myDbHelper = MyDbHelper(this)
         list = myDbHelper.getAllContacts()
-//        ijtimoiyAdapter = Ijtimoiy_adapter(list)
+
 
         val tabLayout=findViewById<TabLayout>(R.id.tab_layout)
         val viewPager2=findViewById<ViewPager2>(R.id.view_pager_2)
@@ -45,12 +45,7 @@ class ViewPagerActivity : AppCompatActivity() {
 
 
 
-//
-//        val names: ArrayList<String> = ArrayList<String>()
-//        names.add("Android")
-//        names.add("Java")
-//        names.add("Php")
-//        names.add("C++")
+
 
         TabLayoutMediator(tabLayout,viewPager2){tab,position->
             when(position){
@@ -125,85 +120,7 @@ class ViewPagerActivity : AppCompatActivity() {
 
 
 
-//        var itemView = item.itemId
-//
-//        if (itemView == R.id.add){
-//
-//          val mBuilder = AlertDialog.Builder(this)
-//
-//
-//            val layoutInflater:LayoutInflater = LayoutInflater.from(this)
-//            val mView: View = layoutInflater.inflate(R.layout.my_dialog, null)
-//
-////            mBuilder.setTitle("Spinner in custom dialog")
-//            val mSpinner = mView.findViewById<Spinner>(R.id.Spinner)
-//            val Sarlavha = mView.findViewById<EditText>(R.id.sarlavha)
-//            val Matni = mView.findViewById<EditText>(R.id.matn)
-//            val saqlash = mView.findViewById<TextView>(R.id.saveText)
-//            val bekor = mView.findViewById<TextView>(R.id.not_text)
-//            val adapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,resources.getStringArray(R.array.restaurantList))
-//            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-//            mSpinner.adapter = adapter
-////            mBuilder.setPositiveButton(
-////                "Save"
-////            ) { dialog, which ->
-//
-//            saqlash.setOnClickListener {
-//                title = "Kotlin app"
-//                val heading = Sarlavha.text.toString()
-//                val description = Matni.text.toString()
-//                val kategoriya = mSpinner.selectedItem.toString()
-//                val contact = Contact(heading, description, kategoriya)
-//
-//
-//                    myDbHelper.addContact(contact)
-////                    dialog.dismiss()
-//
-//
-//
-//
-//
-//
-////                dialog.dismiss()
-//                val viewPager2=findViewById<ViewPager2>(R.id.view_pager_2)
-//                val mPagerAdapter =viewPager2.adapter
-//                val currentPosition = viewPager2.currentItem
-//                mPagerAdapter?.notifyDataSetChanged()
-//                viewPager2.adapter = null
-//                viewPager2.adapter =mPagerAdapter
-//                viewPager2.setCurrentItem(currentPosition)
-//
-//            }
-//
-////                title = "Kotlin app"
-////                val heading = Sarlavha.text.toString()
-////                val description = Matni.text.toString()
-////                val kategoriya = mSpinner.selectedItem.toString()
-////                val contact = Contact(heading, description, kategoriya)
-////                myDbHelper.addContact(contact)
-//
-//
-////                dialog.dismiss()
-////                val viewPager2=findViewById<ViewPager2>(R.id.view_pager_2)
-////                val mPagerAdapter =viewPager2.adapter
-////                val currentPosition = viewPager2.currentItem
-////                mPagerAdapter?.notifyDataSetChanged()
-////                viewPager2.adapter = null
-////                viewPager2.adapter =mPagerAdapter
-////                viewPager2.setCurrentItem(currentPosition)
-//
-////            }
-////            mBuilder.setNegativeButton(
-////                "Dismiss"
-////            ) {dialog, which ->
-////                dialog.dismiss()
-////            }
-//            mBuilder.setView(mView)
-//            val dialog : AlertDialog = mBuilder.create()
-//            dialog.show()
-//
-//
-//        }
+
         return false
 
 

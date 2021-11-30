@@ -32,9 +32,7 @@ class Child_dunyoActivity : AppCompatActivity() {
 
         binding.tool.setTitleTextColor(Color.WHITE)
 
-//        binding.back.setOnClickListener {
-//            finish()
-//        }
+
 
         myDbHelper = MyDbHelper(this)
         val id = intent.getIntExtra("aydi", 0)

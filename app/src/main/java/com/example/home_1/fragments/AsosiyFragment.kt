@@ -31,9 +31,7 @@ import kotlin.collections.ArrayList
 
 class AsosiyFragment : Fragment() {
 
-    //    private var _binding: FragmentAsosiyBinding? = null
-//    private val binding get() = _binding!!
-//    lateinit var root: View
+
     lateinit var spinnerAdapter: SpinnerAdapter
     lateinit var rvAdapters: Asosiy_adapter
     lateinit var spinnerBasicList: ArrayList<String>
@@ -108,17 +106,7 @@ class AsosiyFragment : Fragment() {
                                 dialogView.sarlavha.requestFocus()
                                 dialogView.matn.requestFocus()
 
-//                                if (name.isEmpty()){
-//                                    dialogView.sarlavha.error = "Kinoning nomi kiritilmadi"
-//                                    dialogView.sarlavha.requestFocus()
-//                                    return@setOnClickListener
-//                                }
-//
-//                                if (descriptions.isEmpty()){
-//                                    dialogView.sarlavha.error = "Kinoning nomi kiritilmadi"
-//                                    dialogView.sarlavha.requestFocus()
-//                                    return@setOnClickListener
-//                                }
+
 
                                 if (name.isNotEmpty() && descriptions.isNotEmpty()) {
 
@@ -183,10 +171,7 @@ class AsosiyFragment : Fragment() {
                             ) {p0, p1 ->}
                             alertDialog.show()
 
-//                            myDbHelper.deleteContact(contact)
-//                            list.remove(contact)
-//                            rvAdapters.notifyItemRemoved(position)
-//                            rvAdapters.notifyItemRangeChanged(position, list.size)
+
                         }
 
 

@@ -29,11 +29,7 @@ class DunyoFragment : Fragment() {
     lateinit var worldList: ArrayList<Contact>
     lateinit var list : ArrayList<Contact>
     lateinit var myDbHelper: MyDbHelper
-//    lateinit var mContext : Context
-//    override fun onAttach(context: Context) {
-//        super.onAttach(context)
-//        mContext = context
-//    }
+
 
     lateinit var binding: FragmentDunyoBinding
     override fun onCreateView(
@@ -163,12 +159,12 @@ class DunyoFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-//        Toast.makeText(binding.root.context, "onStart", Toast.LENGTH_SHORT).show()
+
     }
 
     override fun onDetach() {
         super.onDetach()
-//        Toast.makeText(binding.root.context, "onDetach", Toast.LENGTH_SHORT).show()
+
     }
 
     @SuppressLint("NotifyDataSetChanged")
